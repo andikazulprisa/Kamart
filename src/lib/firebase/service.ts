@@ -19,18 +19,15 @@ export async function retrieveData(collectionName: string) {
     id: doc.id,
     ...doc.data(),
   }));
-
   return data;
 }
 
 export async function retrieveDataById(collectionName: string, id: string) {
   const docRef = doc(firestore, collectionName, id);
   const snapshot = await getDoc(docRef);
-
   if (!snapshot.exists()) {
     throw new Error(`Dokumen dengan ID ${id} tidak ditemukan`);
   }
-
   return { id: snapshot.id, ...snapshot.data() };
 }
 
@@ -50,16 +47,13 @@ export async function signUp(
       where("email", "==", userData.email)
     );
     const snapshot = await getDocs(q);
-
     if (!userData.role) {
       userData.role = "member";
     }
-
     if (!snapshot.empty) {
       callback(false);
     } else {
       userData.password = await bcrypt.hash(userData.password, 10);
-
       await addDoc(collection(firestore, "users"), userData);
       callback(true);
     }
@@ -69,4 +63,16 @@ export async function signUp(
   }
 }
 
-export default signUp;
+export async function signIn(email: string) {
+  const q = query(collection(firestore, "users"), where("email", "==", email));
+  const snapshot = await getDocs(q);
+  const data = snapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+  if (data.length > 0) {
+    return data[0];
+  } else {
+    return null;
+  }
+}
