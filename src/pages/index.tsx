@@ -6,7 +6,7 @@ export default function Home() {
       <main className="flex flex-col gap-8 items-center sm:items-start">
         <h1 className="text-black text-5xl">KAMART | SHOP</h1>
         <p className="text-black text-xl">
-          /home, /product, /auth/login, /auth/register{" "}
+          /home, /products, /auth/login, /auth/register{" "}
         </p>
         <div className="flex gap-4">
           <button className="bg-black text-white px-4 py-2 rounded flex items-center gap-2">
