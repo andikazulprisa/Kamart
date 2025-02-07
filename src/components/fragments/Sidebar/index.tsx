@@ -1,7 +1,6 @@
 import React from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import Button from "@/components/ui/Button";
 
 type Proptypes = {
   lists: Array<{

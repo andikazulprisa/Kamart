@@ -2,16 +2,14 @@ type Propstypes = {
   label: string;
   name: string;
   type: string;
-  placeholder: string;
+  placeholder?: string;
 };
 
 const Input = (props: Propstypes) => {
   const { label, name, type, placeholder } = props;
   return (
-    <div>
-      <label htmlFor={name} className="block text-sm font-medium text-black">
-        {label}
-      </label>
+    <div className="block text-sm font-medium text-black">
+      {label && <label htmlFor={name}>{label}</label>}
       <input
         name={name}
         id={name}
