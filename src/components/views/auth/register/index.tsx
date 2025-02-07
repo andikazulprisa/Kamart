@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { FormEvent, useState } from "react";
+import Input from "@/components/ui/Input";
+import Button from "@/components/ui/Button";
 
 const RegisterView = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -45,68 +47,13 @@ const RegisterView = () => {
         </h1>
         {error && <p className="text-red-600 px-10 text-center">{error}</p>}
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-black"
-            >
-              Email
-            </label>
-            <input
-              name="email"
-              id="email"
-              type="email"
-              className="mt-1 block w-full p-2 border text-black border-gray-300 rounded-md"
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="fullname"
-              className="block text-sm font-medium text-black"
-            >
-              Fullname
-            </label>
-            <input
-              name="fullname"
-              id="fullname"
-              type="text"
-              className="mt-1 block w-full p-2 border text-black border-gray-300 rounded-md"
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="phone"
-              className="block text-sm font-medium text-black"
-            >
-              Phone
-            </label>
-            <input
-              name="phone"
-              id="phone"
-              type="text"
-              className="mt-1 block w-full p-2 border text-black border-gray-300 rounded-md"
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-black"
-            >
-              Password
-            </label>
-            <input
-              name="password"
-              id="password"
-              type="password"
-              className="mt-1 block w-full p-2 text-black border border-gray-300 rounded-md"
-            />
-          </div>
-          <button
-            type="submit"
-            className="w-full bg-black text-white py-2 rounded-md hover:bg-gray-800 transition"
-          >
-            {isLoading ? "Loading.." : "Register"}
-          </button>
+          <Input label="Email" name="email" type="email" />
+          <Input label="Fullname" name="fullname" type="text" />
+          <Input label="Phone" name="phone" type="number" />
+          <Input label="Password" name="password" type="password" />
+          <Button type="submit" onClick={() => {}}>
+            {isLoading ? "Loading..." : "Register"}
+          </Button>
         </form>
         <p className="mt-4 text-sm text-black text-center">
           Have an account?{" "}

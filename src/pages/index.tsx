@@ -1,25 +1,20 @@
-import { useSession } from "next-auth/react";
-import { Geist, Geist_Mono } from "next/font/google";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import { FaProductHunt, FaUser } from "react-icons/fa";
 
 export default function Home() {
-  const { data } = useSession();
-  console.log(data);
   return (
-    <div
-      className={`${geistSans.variable} ${geistMono.variable} grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]`}
-    >
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <h1 className="text-blue-400 text-5xl">WHAT YOU KNOW</h1>
+    <div className="flex items-center justify-center min-h-screen p-8 pb-20 sm:p-20">
+      <main className="flex flex-col gap-8 items-center sm:items-start">
+        <h1 className="text-black text-5xl">WELCOME, KAMART</h1>
+        <div className="flex gap-4">
+          <button className="bg-black text-white px-4 py-2 rounded flex items-center gap-2">
+            <FaProductHunt />
+            Product
+          </button>
+          <button className="bg-black text-white px-4 py-2 rounded flex items-center gap-2">
+            <FaUser />
+            Profile
+          </button>
+        </div>
       </main>
     </div>
   );
