@@ -14,15 +14,9 @@ export interface Product {
 }
 
 export const getProducts = async (): Promise<Product[]> => {
-  try {
-    const response = await axios.get<Product[]>(
-      "https://api.escuelajs.co/api/v1/products"
-    );
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching products:", error);
-    return [];
-  }
+  const response = await fetch('https://api.escuelajs.co/api/v1/products');
+  const data = await response.json();
+  return data;
 };
 
 export const getDetailProduct = async (

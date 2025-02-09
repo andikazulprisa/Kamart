@@ -4,7 +4,7 @@ type Proptypes = {
   error?: string;
   title?: string;
   children: React.ReactNode;
-  link?: string;
+  link: string;
   linkText?: string;
 };
 
@@ -16,21 +16,12 @@ const AuthLayout = (props: Proptypes) => {
         <h1 className="text-2xl font-bold text-black mb-6 text-center">
           {title}
         </h1>
-        <div>
-          {children}
-          {link && (
-            <p className="mt-4 text-sm text-black text-center">
-              {linkText}{" "}
-              <Link href={link} className="text-blue-600 hover:underline">
-                {linkText}
-              </Link>
-            </p>
-          )}
-        </div>
         {error && <p className="text-red-600 px-10 text-center">{error}</p>}
+        <div>{children}</div>
+
         <p className="mt-4 text-sm text-black text-center">
-          Dont have an account?{" "}
-          <Link href="/auth/register" className="text-blue-600 hover:underline">
+            {linkText}
+          <Link href={link} className="text-blue-600 hover:underline">
             Sign up here
           </Link>
         </p>

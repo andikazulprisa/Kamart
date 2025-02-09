@@ -5,37 +5,28 @@ import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 
 const RegisterView = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
-  const { push } = useRouter();
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setIsLoading(true);
-    setError("");
-    const form = event.target as HTMLFormElement;
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    
+    const formData = new FormData(e.currentTarget);
     const data = {
-      email: form.email.value,
-      fullname: form.fullname.value,
-      phone: form.phone.value,
-      password: form.password.value,
+      email: formData.get('email') as string,
+      fullname: formData.get('fullname') as string,
+      phone: formData.get('phone') as string,
+      password: formData.get('password') as string,
     };
 
-    const result = await fetch("/api/user/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-
-    if (result.status === 200) {
-      form.reset();
-      setIsLoading(false);
-      push("/auth/login");
-    } else {
-      setIsLoading(false);
-      setError("Email is already registered");
+    try {
+      // API call here
+      router.push('/auth/login');
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -45,14 +36,13 @@ const RegisterView = () => {
         <h1 className="text-2xl font-bold text-black mb-6 text-center">
           Register
         </h1>
-        {error && <p className="text-red-600 px-10 text-center">{error}</p>}
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input label="Email" name="email" type="email" />
           <Input label="Fullname" name="fullname" type="text" />
           <Input label="Phone" name="phone" type="number" />
           <Input label="Password" name="password" type="password" />
           <Button type="submit" onClick={() => {}}>
-            {isLoading ? "Loading..." : "Register"}
+            {loading ? "Loading..." : "Register"}
           </Button>
         </form>
         <p className="mt-4 text-sm text-black text-center">

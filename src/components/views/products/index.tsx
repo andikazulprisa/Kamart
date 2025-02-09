@@ -1,101 +1,122 @@
-import { FC, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import CardProduct from "@/components/views/products/Card";
 import { getProducts } from "@/services/api/product";
 
-interface Product {
+type Product = {
   id: number;
   title: string;
   price: number;
   description: string;
   images: string[];
-  category?: {
-    id: number;
-    name: string;
-    image: string;
-  };
-}
+};
 
-const ProductView: FC = () => {
-  const [selectedCategory, setSelectedCategory] = useState<string>("");
-  const [filterPrice, setFilterPrice] = useState<number | null>(null);
-  const [minPrice, setMinPrice] = useState<number>(0);
-  const [maxPrice, setMaxPrice] = useState<number>(1000);
-
+const ProductView: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  
+  // Filter states
+  const [searchTitle, setSearchTitle] = useState<string>('');
+  const [minPrice, setMinPrice] = useState<number | null>(null);
+  const [maxPrice, setMaxPrice] = useState<number | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
 
   useEffect(() => {
-    const fetchData = async () => {
-      const data = await getProducts();
-      setProducts(data);
+    const fetchProducts = async () => {
+      try {
+        const data = await getProducts();
+        setProducts(data);
+        setLoading(false);
+      } catch {
+        setError("Failed to fetch products");
+        setLoading(false);
+      }
     };
-    fetchData();
+
+    fetchProducts();
   }, []);
 
   const handleAddToCart = (id: number) => {
-    console.log("Add to cart", id);
+    console.log(`Product ${id} added to cart`);
   };
 
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>{error}</p>;
+  }
+
   return (
-    <div className="flex pt-16">
-      <aside className="w-64 bg-gray-100 p-4 h-screen fixed left-0 top-16 overflow-y-auto">
-        <h2 className="text-xl font-semibold mb-4">Filter Products</h2>
-
+    <div className="flex pt-20">
+      <aside className="w-64 bg-gray-200 p-4">
         <div className="mb-4">
-          <label htmlFor="category" className="block font-medium mb-1">
-            Filter by Category
-          </label>
-          <select
-            id="category"
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-            className="border border-gray-300 rounded p-2 w-full"
-          >
-            <option value="">All Categories</option>
-            <option value="electronics">Electronics</option>
-            <option value="fashion">Fashion</option>
-            <option value="home">Home</option>
-          </select>
-        </div>
-
-        <div className="mb-4">
-          <label htmlFor="price" className="block font-medium mb-1">
-            Filter by Price
-          </label>
-          <input
-            id="price"
-            type="number"
-            placeholder="Enter price"
-            value={filterPrice !== null ? filterPrice : ""}
-            onChange={(e) => setFilterPrice(Number(e.target.value))}
-            className="border border-gray-300 rounded p-2 w-full"
-          />
-        </div>
-
-        <div className="mb-4">
-          <label htmlFor="price-range" className="block font-medium mb-1">
-            Filter by Price Range
-          </label>
-          <div className="flex space-x-2">
+          <h3 className="text-xl font-bold mb-4">Filter</h3>
+          
+          {/* Filter by Title */}
+          <div className="mb-6">
+            <label htmlFor="searchTitle" className="block mb-2 font-semibold">
+              Search Title
+            </label>
             <input
-              id="minPrice"
-              type="number"
-              placeholder="Min"
-              value={minPrice}
-              onChange={(e) => setMinPrice(Number(e.target.value))}
-              className="border border-gray-300 rounded p-2 w-1/2"
+              type="text"
+              id="searchTitle"
+              className="w-full border border-gray-300 rounded p-2"
+              placeholder="Search products..."
+              value={searchTitle}
+              onChange={(e) => setSearchTitle(e.target.value)}
             />
-            <input
-              id="maxPrice"
-              type="number"
-              placeholder="Max"
-              value={maxPrice}
-              onChange={(e) => setMaxPrice(Number(e.target.value))}
-              className="border border-gray-300 rounded p-2 w-1/2"
-            />
+          </div>
+
+          {/* Filter by Price Range */}
+          <div className="mb-6">
+            <h3 className="font-semibold mb-2">Price Range</h3>
+            <div className="space-y-2">
+              <div>
+                <label htmlFor="minPrice" className="block mb-1">
+                  Min Price
+                </label>
+                <input
+                  type="number"
+                  id="minPrice"
+                  className="w-full border border-gray-300 rounded p-2"
+                  value={minPrice ?? ''}
+                  onChange={(e) => setMinPrice(Number(e.target.value))}
+                />
+              </div>
+              <div>
+                <label htmlFor="maxPrice" className="block mb-1">
+                  Max Price
+                </label>
+                <input
+                  type="number"
+                  id="maxPrice"
+                  className="w-full border border-gray-300 rounded p-2"
+                  value={maxPrice ?? ''}
+                  onChange={(e) => setMaxPrice(Number(e.target.value))}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Filter by Category */}
+          <div className="mb-6">
+            <h3 className="font-semibold mb-2">Category</h3>
+            <select 
+              className="w-full p-2 border border-gray-300 rounded"
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+            >
+              <option value="">All Categories</option>
+              <option value="electronics">Electronics</option>
+              <option value="clothing">Clothing</option>
+              <option value="books">Books</option>
+              <option value="others">Others</option>
+            </select>
           </div>
         </div>
       </aside>
-
       <main className="ml-64 flex-1 p-4">
         <h1 className="text-3xl mb-4">All Product</h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">

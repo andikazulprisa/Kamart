@@ -7,8 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest --passWithNoTests -u",
-    "test:cover": "npm run test -- --coverage",
+    "test": "jest",
     "test:watch": "jest --watch"
   },
   "dependencies": {
@@ -26,8 +25,9 @@
     "@babel/preset-typescript": "^7.26.0",
     "@eslint/eslintrc": "^3",
     "@testing-library/dom": "^10.4.0",
-    "@testing-library/jest-dom": "^6.6.3",
-    "@testing-library/react": "^16.2.0",
+    "@testing-library/react": "^14.0.0",
+    "@testing-library/jest-dom": "^6.1.0",
+    "@testing-library/user-event": "^14.0.0",
     "@types/bcrypt": "^5.0.2",
     "@types/jest": "^29.5.14",
     "@types/node": "^20",

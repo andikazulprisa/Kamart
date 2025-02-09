@@ -1,17 +1,34 @@
-// filepath: /d:/My-Project/kamart/jest.config.ts
-import type { Config } from "@jest/types";
+import type { Config } from "jest";
+import nextJest from "next/jest.js";
 
-const config: Config.InitialOptions = {
-  preset: "ts-jest",
-  testEnvironment: "jsdom",
+const createJestConfig = nextJest({
+  // Provide the path to your Next.js app to load next.config.js and .env files in your test environment
+  dir: "./",
+});
+
+// Add any custom config to be passed to Jest
+const config: Config = {
+  modulePaths: ["<rootDir>"],
+  collectCoverage: true,
+  collectCoverageFrom: [
+    "src/**/*.{ts,tsx}",
+    "!**/node_modules/**",
+    "!<rootDir>/.next/**",
+    "!<rootDir>/coverage/**",
+    "!<rootDir>/*.config.ts",
+    "!<rootDir>/src/lib/**",
+  ],
   coverageProvider: "v8",
-  setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
+  testEnvironment: "jsdom",
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/src/$1",
   },
-  transform: {
-    "^.+\\.(ts|tsx)$": "ts-jest",
-  },
+  testMatch: [
+    "**/__tests__/**/*.ts?(x)",
+    "**/?(*.)+(spec|test).ts?(x)"
+  ],
 };
 
-export default config;
+// createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
+export default createJestConfig(config);
