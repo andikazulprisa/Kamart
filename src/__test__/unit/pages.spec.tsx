@@ -4,8 +4,10 @@ import { useRouter } from "next/router";
 import HomePage from "@/pages/index";
 import LoginPage from "@/pages/auth/login";
 import RegisterPage from "@/pages/auth/register";
-import ProductPage from "@/pages/products";
-import ProfilePage from "@/pages/home/profile";
+import ProductPage, { getServerSideProps } from "@/pages/products";
+import ProfilePage from "@/pages/admin/profile";
+import { getProducts } from "@/services/api/product";
+import { IncomingMessage, ServerResponse } from "http";
 
 // Mock next-auth
 jest.mock("next-auth/react", () => ({
@@ -25,24 +27,7 @@ jest.mock("next/router", () => ({
 
 // **Mock API getProducts**
 jest.mock("@/services/api/product", () => ({
-  getProducts: jest.fn().mockResolvedValue([
-    {
-      id: 1,
-      title: "Test Product 1",
-      price: 100,
-      description: "Description for product 1",
-      images: ["https://example.com/image1.jpg"],
-      category: { id: 1, name: "electronics", image: "https://example.com/cat1.jpg" },
-    },
-    {
-      id: 2,
-      title: "Test Product 2",
-      price: 200,
-      description: "Description for product 2",
-      images: ["https://example.com/image2.jpg"],
-      category: { id: 2, name: "fashion", image: "https://example.com/cat2.jpg" },
-    },
-  ]),
+  getProducts: jest.fn(),
   getDetailProduct: jest.fn().mockResolvedValue(null),
 }));
 
@@ -60,7 +45,7 @@ describe("Pages Tests", () => {
     jest.clearAllMocks();
   });
 
-  describe("1. Home Page", () => {
+  describe("1. Admin Page", () => {
     it("should render shop title", () => {
       render(<HomePage />);
       expect(screen.getByText("KAMART | SHOP")).toBeInTheDocument();
@@ -128,13 +113,62 @@ describe("Pages Tests", () => {
 
   describe("4. Product Page", () => {
     it("should render product page", async () => {
-      render(<ProductPage />);
+      (getProducts as jest.Mock).mockResolvedValue([
+        {
+          id: 1,
+          title: "Test Product 1",
+          price: 100,
+          description: "Description for product 1",
+          images: ["https://example.com/image1.jpg"],
+        },
+      ]);
+
+      render(<ProductPage products={[{
+        id: 1, title: "Test Product 1",
+        price: 0,
+        description: "",
+        images: []
+      }]} />);
+
       await waitFor(() => {
-        expect(screen.getByText("All Product")).toBeInTheDocument();
+        expect(screen.getByText("All Products")).toBeInTheDocument();
       });
+
       // Pastikan bahwa daftar produk tampil tanpa error
       await waitFor(() => {
-        expect(screen.getAllByText(/Test Product/i).length).toBeGreaterThan(0);
+        expect(screen.getByText("Test Product 1")).toBeInTheDocument();
+      });
+    });
+
+    it("should fetch products on server side", async () => {
+      (getProducts as jest.Mock).mockResolvedValue([
+        {
+          id: 1,
+          title: "Test Product 1",
+          price: 100,
+          description: "Description for product 1",
+          images: ["https://example.com/image1.jpg"],
+        },
+      ]);
+      const response = await getServerSideProps({
+        req: { cookies: {} } as IncomingMessage & { cookies: Partial<{ [key: string]: string; }> },
+        res: {} as ServerResponse<IncomingMessage>,
+        query: {},
+        resolvedUrl: ""
+      });
+
+      expect(response).toEqual({
+        props: {
+          products: [
+            {
+              id: 1,
+              title: "Test Product 1",
+              price: 100,
+              description: "Description for product 1",
+              images: ["https://example.com/image1.jpg"],
+            },
+          ],
+        },
       });
     });
   });
