@@ -1,4 +1,6 @@
+/* eslint-disable @next/next/no-img-element */
 import React from "react";
+import Image from "next/image";
 
 interface HeaderProps {
   image: string;
@@ -37,7 +39,7 @@ const CardHeader = ({ image }: { image: string }) => {
       <img
         src={image}
         alt="product"
-        className="object-cover rounded-t-lg w-full h-full"
+        className="object-cover rounded-t-lg h-full w-full"
       />
     </div>
   );
