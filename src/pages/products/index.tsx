@@ -1,12 +1,13 @@
 import { GetServerSideProps } from "next";
-import { getProducts } from "@/services/api/product";
+import { getProducts, Product } from "@/services/api/product";
 import ProductView from "@/components/views/products";
 import Head from "next/head";
 
-const ProductPage = ({ products }) => {
+const ProductPage = ({ }: { products: Product[] }) => {
   return (
     <>
       <Head>
+
         <title>Product Page</title>
       </Head>
       <div>
