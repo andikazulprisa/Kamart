@@ -1,11 +1,11 @@
-import HomeLayout from "@/components/layouts/HomeLayout";
+import AdminLayout from "@/components/layouts/AdminLayout";
 
-const DashboardHomeView = () => {
+const DashboardAdminView = () => {
   return (
-    <HomeLayout>
+    <AdminLayout>
       <div>HOMAPAGE</div>
-    </HomeLayout>
+    </AdminLayout>
   );
 };
 
-export default DashboardHomeView;
+export default DashboardAdminView;
