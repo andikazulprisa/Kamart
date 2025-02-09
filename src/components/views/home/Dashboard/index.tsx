@@ -3,7 +3,7 @@ import AdminLayout from "@/components/layouts/AdminLayout";
 const DashboardAdminView = () => {
   return (
     <AdminLayout>
-      <div>HOMAPAGE</div>
+      <div>ADMIN PAGE</div>
     </AdminLayout>
   );
 };
