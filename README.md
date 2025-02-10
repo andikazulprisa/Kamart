@@ -8,7 +8,7 @@
 
 ### Mohon maaf Dokumentasi belum selesai dibuat
 
-## Ada beberapa fitur yang ada dalam project ini
+## Ada beberapa fitur yang ada dalam project ini (belum di update)
 
 1.
 2.
