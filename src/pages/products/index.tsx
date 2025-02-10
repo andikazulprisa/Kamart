@@ -12,7 +12,6 @@ const ProductPage = ({ }: { products: Product[] }) => {
       </Head>
       <div>
         <h1>All Products</h1>
-        {/* Render produk di sini */}
       </div>
       <ProductView />
     </>
