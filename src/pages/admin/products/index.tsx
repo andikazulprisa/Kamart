@@ -1,14 +1,14 @@
-import HomeLayout from "@/components/layouts/AdminLayout";
+import AdminLayout from "@/components/layouts/AdminLayout";
 import React from "react";
 
-const HomeProductPages: React.FC = () => {
+const AdminProductPages: React.FC = () => {
   return (
-    <HomeLayout>
+    <AdminLayout>
       <div>
-        <h1>Home</h1>
+        <h1>Admin</h1>
       </div>
-    </HomeLayout>
+    </AdminLayout>
   );
 };
 
-export default HomeProductPages;
+export default AdminProductPages;

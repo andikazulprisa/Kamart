@@ -23,7 +23,7 @@ const listSidebarItems = [
   },
 ];
 
-const HomeLayout: React.FC<Proptypes> = ({ children }) => {
+const AdminLayout: React.FC<Proptypes> = ({ children }) => {
   return (
     <div className="flex">
       <Sidebar lists={listSidebarItems} />
@@ -32,4 +32,4 @@ const HomeLayout: React.FC<Proptypes> = ({ children }) => {
   );
 };
 
-export default HomeLayout;
+export default AdminLayout;

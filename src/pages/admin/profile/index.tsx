@@ -1,14 +1,14 @@
-import HomeLayout from "@/components/layouts/AdminLayout";
+import AdminLayout from "@/components/layouts/AdminLayout";
 import React from "react";
 
-const HomeProfilePages: React.FC = () => {
+const AdminProfilePages: React.FC = () => {
   return (
-    <HomeLayout>
+    <AdminLayout>
       <div>
         <h1></h1>
       </div>
-    </HomeLayout>
+    </AdminLayout>
   );
 };
 
-export default HomeProfilePages;
+export default AdminProfilePages;
